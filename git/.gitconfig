@@ -1,0 +1,8 @@
+[core]
+        editor = vim
+        whitespace = trailing-space,-space-before-tab,tab-in-indent,cr-at-eol
+[user]
+	name = Chih-Pin Tan
+	email = tanchihpin0517@gmail.com
+[push]
+	default = simple

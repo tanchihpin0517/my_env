@@ -1,0 +1,14 @@
+{
+    "list.insertMappings": {
+        "<C-n>": "normal:j",
+        "<C-p>": "normal:k"
+    },
+    "python.jediEnabled": false,
+    "python.pythonPath":"~/.local/bin/python",
+    "coc.preferences.colorSupport": false,
+    "coc.preferences.extensionUpdateCheck": "daily",
+    "explorer.keyMappings.global.v": "open:vsplit",
+    "explorer.keyMappings.global.i": false,
+    "explorer.keyMappings.global.l": false,
+    "explorer.keyMappings.global.h": false
+}
