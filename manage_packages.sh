@@ -3,7 +3,7 @@ cd $(dirname $0)
 source ./util.sh
 
 packages+=" cmake"
-packages+=" llvm python@3.7"
+packages+=" llvm tcl-tk python@3.8"
 packages+=" tree htop"
 packages+=" tmux tmux-mem-cpu-load"
 packages+=" vim nvim node"
@@ -32,29 +32,48 @@ install_brew_locally() {
     check_and_add_line_to_file "$line" "$rc_file"
 }
 
-while true; do
-    read -p "Install or use Homebrew locally? ([Y]/n): " yn
-    case $yn in
-        [Yy]* ) install_brew_locally; break;;
-        [Nn]* ) break;;
-        "" ) install_brew_locally; break;; # default yes
-        * ) echo "Please answer yes or no.";;
-    esac
+for arg in "$@"; do
+    if [ "$arg" = "--brew" ]; then
+        install_brew_locally
+    fi
 done
+
+if [[ $(which brew) == "" ]]; then
+    echo "brew: command not found"
+    exit
+else
+    echo "brew: found at $(which brew)"
+fi
 
 mkdir -p "$HOME/.local/bin"
 line='export PATH="$HOME/.local/bin:$PATH"'
 check_and_add_line_to_file "$line" "$rc_file"
 
 for arg in "$@"; do
-    if [ "$arg" = "install" ]; then
-        brew update --verbose
-        brew install $packages
+    if [ "$arg" = "--install" ]; then
+        eval "read -r -a pkgs <<< \"$packages\""
+
+        for pkg in "${pkgs[@]}"; do
+            if info=$(brew ls --versions $pkg > /dev/null 2>&1); then
+                echo "$pkg is already installed"
+            else
+                echo "$pkg" is not installed
+                not_installed+=($pkg)
+            fi
+        done
+        if [[ $not_installed != "" ]]; then
+            echo "Packages will be installed: ${not_installed[*]}"
+            brew update --verbose
+            brew install ${not_installed[*]}
+        fi
     fi
 done
+
 for arg in "$@"; do
-    if [ "$arg" = "upgrade" ]; then
+    if [ "$arg" = "--upgrade" ]; then
         brew update --verbose
         brew upgrade
     fi
 done
+
+echo "Remember to restart shell to load environment variables"

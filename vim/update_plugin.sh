@@ -26,10 +26,6 @@ if [ "$1" = "--all" ]; then
     LINK_PATH="$HOME/.local/bin"
     mkdir -p $LINK_PATH
 
-    link_from_brew_bin python@3.7 python3 $LINK_PATH python
-    link_from_brew_bin python@3.7 python3 $LINK_PATH python3
-    link_from_brew_bin python@3.7 pip3 $LINK_PATH pip
-    link_from_brew_bin python@3.7 pip3 $LINK_PATH pip3
     link_from_brew_bin llvm clang $LINK_PATH clang
     link_from_brew_bin llvm clangd $LINK_PATH clangd
     link_from_brew_bin llvm clang++ $LINK_PATH clang++

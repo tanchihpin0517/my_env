@@ -1,6 +1,5 @@
 cd $(dirname $0)
-
-source ../util.sh
+source ../util.sh;
 
 check_and_link "$PWD/.vimrc" "$HOME/.vimrc"
 

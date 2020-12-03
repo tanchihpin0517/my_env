@@ -21,9 +21,17 @@ check_and_link() {
 
     if [ -L $to ]; then
         echo "Warning: $to exists"
-        rm -v $to
     fi
 
     echo "Link $from to $to..."
-    ln -s $from $to
+    ln -sf $from $to
+}
+
+source_rc_file() {
+    rc_file="$HOME/.bashrc"
+    if [ "$(uname)" = "Darwin" ]; then # Fix for Mac
+        rc_file="$HOME/.bash_profile"
+    fi
+
+    source $rc_file
 }

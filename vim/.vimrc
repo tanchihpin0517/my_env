@@ -12,8 +12,8 @@ endif
 Plug 'sheerun/vim-polyglot'         " A collection of language packs
 Plug 'easymotion/vim-easymotion'
 Plug 'terryma/vim-expand-region'
-Plug 'majutsushi/tagbar'
-Plug 'ludovicchabant/vim-gutentags' " Management of tags files
+"Plug 'majutsushi/tagbar'
+"Plug 'ludovicchabant/vim-gutentags' " Management of tags files
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-repeat'
@@ -21,6 +21,9 @@ Plug 'yggdroot/indentline'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'skywind3000/vim-quickui'
+Plug 'tmhedberg/SimpylFold'
 call plug#end()
 
 "============================= General ======================================"
@@ -63,9 +66,12 @@ set matchpairs+=<:>
 set pastetoggle=<F9>
 set tags+=tags;
 set timeout
-set timeoutlen=500  "for mappings
+set timeoutlen=10000  "timeout for mappings (ms)
 set ttimeout
-set ttimeoutlen=10  "for key codes
+set ttimeoutlen=10  "timeout for key codes
+set foldmethod=indent
+set foldlevel=99
+set hidden "coc
 if !has('nvim')
     for key in ['h', 'j', 'k', 'l', 'f', 'b', 'w']
         exec "set <M-".key.">=\e".key
@@ -73,7 +79,7 @@ if !has('nvim')
 endif
 
 "============================= Variables ===================================="
-let move_interval=3         | let mi=move_interval
+let move_interval=4         | let mi=move_interval
 let temp_register="t"       | let tr=temp_register
 let temp_mark="t"           | let tm=temp_mark
 let mode_switch_mark="m"    | let msm=mode_switch_mark
@@ -94,6 +100,8 @@ nnoremap <expr> c "m".msm."c"
 nnoremap <expr> v "m".msm."v"
 nnoremap <expr> <C-j> mi."j"
 nnoremap <expr> <C-k> mi."k"
+nnoremap <expr> <C-h> mi."h"
+nnoremap <expr> <C-l> mi."l"
 nnoremap        q: :q
 nnoremap        <leader>q :q<CR>
 nnoremap        : :set norelativenumber<CR>:
@@ -101,7 +109,7 @@ nnoremap        / :set norelativenumber<CR>/
 nnoremap        <F10> :IndentLinesToggle<CR>
 " EasyMotion
 map             <C-F12> <Plug>(easymotion-prefix)
-map             <Leader>s <Plug>(easymotion-s2)
+map             s <Plug>(easymotion-s2)
 map             <Leader>f <Plug>(easymotion-fl)
 map             <Leader>F <Plug>(easymotion-Fl)
 " tabs
@@ -109,10 +117,15 @@ nnoremap        <leader>1 gT
 nnoremap        <leader>2 gt
 nnoremap        <C-w>t <C-w>T
 " coc
-nnoremap        <leader>d :call <SID>show_documentation()<CR>
+nnoremap        <leader>doc :call <SID>show_documentation()<CR>
+nnoremap        <leader>def :execute "normal \<Plug>(coc-definition)"<CR>
 nnoremap <silent> <leader>5 :CocCommand explorer --preset floating --quit-on-open<CR>
 " fzf
 nnoremap        <leader>l :Lines<CR>
+" better-whitespace
+nnoremap        <leader>= :StripWhitespace<CR>
+" quickui
+nnoremap        <space><space> :call quickui#menu#open()<CR>
 
 "============================= visual ======================================="
 vnoremap <expr> <C-j> mi."j"
@@ -122,8 +135,8 @@ vnoremap        < <gv
 vnoremap        <F10> <Esc>:IndentLinesToggle<CR>gv
 
 "============================= insert ======================================="
-inoremap        <C-b> <Left>
-inoremap        <C-f> <Right>
+inoremap        <C-s> <Left>
+inoremap        <C-d> <Right>
 inoremap        <C-w> <C-\><C-o>db
 inoremap        <F10> <Esc>:IndentLinesToggle<CR>a
 inoremap        () ()<Esc>i
@@ -160,7 +173,6 @@ cnoreabbrev     fl Lines
 cnoreabbrev     fw Windows
 " coc
 cnoreabbrev <silent> dia :CocDiagnostics
-cnoreabbrev <silent> def execute "normal \<Plug>(coc-definition)"
 cnoreabbrev     ex CocCommand explorer --preset floating --quit-on-open
 cnoreabbrev     setpy CocCommand python.setInterpreter
 
@@ -262,6 +274,19 @@ let g:tagbar_autopreview = 0
 let g:tagbar_map_showproto = "d"
 let g:tagbar_previewwin_pos = "rightbelow"
 
+"============================= Better-Whitespace ============================"
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=0
+let g:strip_whitespace_confirm=0
+let g:strip_whitelines_at_eof=1
+let g:show_spaces_that_precede_tabs=1
+let g:better_whitespace_ctermcolor='204'
+let g:better_whitespace_guicolor='#E06C75'
+let g:better_whitespace_operator=''
+
+"============================= SimpylFold ==================================="
+let g:SimpylFold_docstring_preview = 1
+
 "============================= CoC =========================================="
 set nobackup " Some servers have issues with backup files, see #649.
 set nowritebackup
@@ -293,9 +318,54 @@ let g:coc_explorer_global_presets = {
 \   }
 \ }
 
+"============================= Quick UI ====================================="
+" clear all the menus
+call quickui#menu#reset()
+
+" install a 'File' menu, use [text, command] to represent an item.
+call quickui#menu#install('&File', [
+            \ [ "&New File\tCtrl+n", 'echo 0' ],
+            \ [ "&Open File\t(F3)", 'echo 1' ],
+            \ [ "&Close", 'echo 2' ],
+            \ [ "--", '' ],
+            \ [ "&Save\tCtrl+s", 'echo 3'],
+            \ [ "Save &As", 'echo 4' ],
+            \ [ "Save All", 'echo 5' ],
+            \ [ "--", '' ],
+            \ [ "E&xit\tAlt+x", 'echo 6' ],
+            \ ])
+
+" items containing tips, tips will display in the cmdline
+call quickui#menu#install('&Edit', [
+            \ [ '&Copy', 'echo 1', 'help 1' ],
+            \ [ '&Paste', 'echo 2', 'help 2' ],
+            \ [ '&Find', 'echo 3', 'help 3' ],
+            \ ])
+
+" script inside %{...} will be evaluated and expanded in the string
+call quickui#menu#install("&Option", [
+            \ ['Set &Spell %{&spell? "Off":"On"}', 'set spell!'],
+            \ ['Set &Cursor Line %{&cursorline? "Off":"On"}', 'set cursorline!'],
+            \ ['Set &Paste %{&paste? "Off":"On"}', 'set paste!'],
+            \ ])
+
+" register HELP menu with weight 10000
+call quickui#menu#install('H&elp', [
+            \ ["&Cheatsheet", 'help index', ''],
+            \ ['T&ips', 'help tips', ''],
+            \ ['--',''],
+            \ ["&Tutorial", 'help tutor', ''],
+            \ ['&Quick Reference', 'help quickref', ''],
+            \ ['&Summary', 'help summary', ''],
+            \ ], 10000)
+
+" enable to display tips in the cmdline
+let g:quickui_show_tip = 1
+
 "============================= My scripts ==================================="
 function! DoSetShiftAndTabWidth(width)
     let &l:shiftwidth = a:width
     let &l:softtabstop = a:width
 endfunction
 command! -bang -nargs=? SetShiftAndTabWidth call DoSetShiftAndTabWidth(<q-args>)
+let @/ = "" " clear highlight history
