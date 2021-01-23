@@ -2,8 +2,8 @@ cd $(dirname $0)
 
 source ./util.sh
 
+packages+=" tcl-tk python@3.8 llvm"
 packages+=" cmake"
-packages+=" llvm tcl-tk python@3.8"
 packages+=" tree htop"
 packages+=" tmux tmux-mem-cpu-load"
 packages+=" vim nvim node"
