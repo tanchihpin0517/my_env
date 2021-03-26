@@ -25,7 +25,7 @@ done
 install_brew_locally() {
     git clone https://github.com/Homebrew/brew ~/.brew/Homebrew
     mkdir ~/.brew/bin
-    ln -s ../Homebrew/bin/brew ~/.brew/bin
+    ln -s ~/.brew/Homebrew/bin/brew ~/.brew/bin
     eval $(~/.brew/bin/brew shellenv)
 
     line="eval \$($(brew --prefix)/bin/brew shellenv)"
