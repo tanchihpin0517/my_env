@@ -6,7 +6,7 @@ packages+=" tcl-tk python@3.8 llvm"
 packages+=" cmake"
 packages+=" tree htop"
 packages+=" tmux tmux-mem-cpu-load"
-packages+=" vim nvim node"
+packages+=" nvim node"
 packages+=" fzf fd"
 packages+=" autoconf automake pkg-config"
 

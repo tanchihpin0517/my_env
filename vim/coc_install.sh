@@ -1,6 +1,4 @@
 extensions=(
-    "coc-python"
-    "coc-clangd"
     "coc-explorer"
     "coc-tabnine"
     "coc-highlight"
