@@ -9,6 +9,7 @@ packages+=" tmux tmux-mem-cpu-load"
 packages+=" nvim node"
 packages+=" fzf fd"
 packages+=" autoconf automake pkg-config"
+packages+=" thefuck"
 
 rc_file="$HOME/.bashrc"
 if [ "$(uname)" = "Darwin" ]; then # Fix for Mac

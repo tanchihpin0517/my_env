@@ -7,3 +7,4 @@ bash ./git/setup.sh
 bash ./python/setup.sh
 bash ./tmux/setup.sh
 bash ./vim/setup.sh
+bash ./thefuck/setup.sh
