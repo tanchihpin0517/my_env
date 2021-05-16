@@ -148,6 +148,7 @@ inoremap        "" ""<Esc>i
 inoremap        '' ''<Esc>i
 inoremap        <> <><Esc>i
 inoremap        {}<CR> {}<Esc>i<CR><Esc>ko
+inoremap        <C-v> <C-r>0
 " coc
 inoremap <expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
 inoremap <expr><C-p> pumvisible() ? "\<C-p>  : coc#refresh()
