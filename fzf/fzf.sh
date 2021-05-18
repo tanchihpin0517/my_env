@@ -10,11 +10,11 @@ export FZF_ALT_C_COMMAND="fd -H --type d . / 2> /dev/null"
 
 FZF_PATH="$(which fzf)"
 
-fzf() {
+fzf() {  # fzf [opts] [path]
     local result=""
     local path=""
     local opt=""
-    
+
     if [[ -z $@ ]]; then
         path="."
     else
@@ -35,7 +35,7 @@ fzf() {
     echo $result
 }
 
-fcd() {
+fcd() {  # fcd [path]
     local path=$1
 
     if [[ -z $path ]]; then
