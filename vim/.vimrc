@@ -109,6 +109,7 @@ nnoremap        / :set norelativenumber<CR>/
 nnoremap        <F10> :IndentLinesToggle<CR>
 nnoremap <expr> <C-e> mi."<C-e>".mi."j"
 nnoremap <expr> <C-y> mi."<C-y>".mi."k"
+nnoremap        <C-m> zz
 " EasyMotion
 map             <C-F12> <Plug>(easymotion-prefix)
 map             s <Plug>(easymotion-s2)
