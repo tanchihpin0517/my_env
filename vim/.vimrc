@@ -107,8 +107,8 @@ nnoremap        <leader>q :q<CR>
 nnoremap        : :set norelativenumber<CR>:
 nnoremap        / :set norelativenumber<CR>/
 nnoremap        <F10> :IndentLinesToggle<CR>
-nnoremap        <C-e> <C-e>j
-nnoremap        <C-y> <C-y>k
+nnoremap <expr> <C-e> mi."<C-e>".mi."j"
+nnoremap <expr> <C-y> mi."<C-y>".mi."k"
 " EasyMotion
 map             <C-F12> <Plug>(easymotion-prefix)
 map             s <Plug>(easymotion-s2)
@@ -141,13 +141,13 @@ inoremap        <C-s> <Left>
 inoremap        <C-d> <Right>
 inoremap        <C-w> <C-\><C-o>db
 inoremap        <F10> <Esc>:IndentLinesToggle<CR>a
-inoremap        () ()<Esc>i
-inoremap        [] []<Esc>i
-inoremap        {} {}<Esc>i
-inoremap        "" ""<Esc>i
-inoremap        '' ''<Esc>i
-inoremap        <> <><Esc>i
-inoremap        {}<CR> {}<Esc>i<CR><Esc>ko
+inoremap        () ()<Left>
+inoremap        [] []<Left>
+inoremap        {} {}<Left>
+inoremap        "" ""<Left>
+inoremap        '' ''<Left>
+inoremap        <> <><Left>
+inoremap        {}<CR> {}<Left><CR><Esc>ko
 inoremap        <C-v> <C-r>0
 " coc
 inoremap <expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
@@ -192,16 +192,16 @@ highlight CocHighlightText cterm=bold,underline gui=bold,underline
 highlight TabLineSel ctermfg=145 ctermbg=236 guifg=#ABB2BF guibg=#2C323C
 
 "============================= Filetype ====================================="
-augroup match_overlength
-    autocmd!
-    autocmd FileType c call MOL80()
-    autocmd FileType cpp call MOL80()
-    autocmd FileType java call MOL80()
-    autocmd FileType python call MOL80()
-    autocmd FileType ruby call MOL80()
-    autocmd FileType fortran call MOL80()
-    autocmd FileType gitcommit call MOL72()
-augroup END
+"augroup match_overlength
+"    autocmd!
+"    autocmd FileType c call MOL80()
+"    autocmd FileType cpp call MOL80()
+"    autocmd FileType java call MOL80()
+"    autocmd FileType python call MOL80()
+"    autocmd FileType ruby call MOL80()
+"    autocmd FileType fortran call MOL80()
+"    autocmd FileType gitcommit call MOL72()
+"augroup END
 function! MOL80()
     match OverLength '\%>80v.\+' " match overLength for length 80
 endfunction
