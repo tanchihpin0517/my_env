@@ -150,6 +150,9 @@ inoremap        '' ''<Left>
 inoremap        <> <><Left>
 inoremap        {}<CR> {}<Left><CR><Esc>ko
 inoremap        <C-v> <C-r>0
+inoremap        (); ();<Left><Left>
+inoremap        []; [];<Left><Left>
+inoremap        {}; {};<Left><Left>
 " coc
 inoremap <expr><C-n> pumvisible() ? "\<C-n>" : coc#refresh()
 inoremap <expr><C-p> pumvisible() ? "\<C-p>  : coc#refresh()
